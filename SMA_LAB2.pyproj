@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>c2155239-1fa9-4516-8817-e0ca938ffe25</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>antra.py</StartupFile>
+    <StartupFile>pirma.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>

@@ -91,26 +91,28 @@ def iteration(alpha, mat, vec):
 def qr(mat, vec):
     n=(np.shape(mat))[0]
     nb=(np.shape(vec))[1]
-    A1=np.hstack((mat,vec))
-
+    Q=np.identity(n)
+    A=mat
     # tiesioginis etapas
     for i in range(0, n-1):
-        z=A1[i:n, i]
+        z=A[i:n, i]
         zp=np.zeros(np.shape(z))
         zp[0]=np.linalg.norm(z)
         omega=z-zp
         omega=omega/np.linalg.norm(omega)
-        Q=np.identity(n-i) - 2*omega*omega.transpose()
-        A1[i:n,:]=Q.dot(A1[i:n,:])
+        Qi=np.identity(n-i) - 2*omega*omega.transpose()
+        A[i:n,:]=Qi.dot(A[i:n,:])
+        Q[:,i:n]=Q[:,i:n].dot(Qi)
     # atgalinis etapas
+    b1=Q.transpose().dot(vec)
     x=np.zeros(shape=(n, nb))
     for i in range(n-1, -1, -1):
-        x[i,:]=(A1[i,n:n+nb] - A1[i, i+1:n] * x[i+1:n,:])/A1[i,i]
+        x[i,:]=(b1[i,:] - A[i, i+1:n] * x[i+1:n,:])/A[i,i]
     return x
 
 
 kuri=2
-method='iter'
+method='qr'
 # Iteracinis metodas su 4-ta lygtim
 if method == 'iter':
     if kuri == 1:
@@ -142,7 +144,6 @@ if method == 'iter':
         print('Patikrinimas:')
         print(Amat(sprend))
         line4 = plot.semilogy(prec[:])
-        plot.semilogy(prec[:])
 
         plot.xlabel("Iteraciju kiekis")
         plot.ylabel("Tikslumas")
@@ -179,7 +180,6 @@ if method == 'iter':
         print('Patikrinimas:')
         print(A21mat(sprend))
         line4 = plot.semilogy(prec[:])
-        plot.semilogy(prec[:])
 
         plot.xlabel("Iteraciju kiekis")
         plot.ylabel("Tikslumas")
